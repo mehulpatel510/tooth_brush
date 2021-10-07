@@ -25,6 +25,19 @@
     
     Taskdetail(id: integer, schedule_id: integer, task_date: date, schedule_slot: text, duration: integer, created_at: datetime, updated_at: datetime)
 
+**Demo Account**
+    admin account: 
+        username: mehul@gmail.com 
+        password: mehul
+
+    doctor account: 
+        username: ramesh@gmail.com 
+        password: ramesh
+
+    patient account: 
+        username: haresh@gmail.com 
+        password: haresh
+    
 
 **Screen shorts:**
 
