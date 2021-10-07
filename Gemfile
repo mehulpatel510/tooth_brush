@@ -58,9 +58,9 @@ gem "pg", "~> 1.2"
 
 gem "haml-rails", ">= 0.3.4", :group => :development
 
-gem "jquery-rails"
+#gem "jquery-rails"
 
-gem "chart-js-rails"
+#gem "chart-js-rails"
 
 gem "chartkick"
 
