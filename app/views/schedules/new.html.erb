@@ -1,0 +1,37 @@
+<section class="NewSchedule">
+    <div class="DashboardPage-header">
+    <p class="DashboardPage-title">New Schedule</p>
+    <a href="javascript:void(0)" class="DashboardPage-link" title="Dashboard">
+            <%= form_with(url: schedules_path, method: "get") do %>
+                <%= image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "History") %>
+            <% end %>
+        </a>
+    </div>
+    <hr/>
+    <%= form_with url: schedules_path, method: "post" do |form| %>
+        <div class="NewSchedule-Form-section">
+            <p><%= form.label :patient_id, "Patient Name:" %></p>
+            <%= select_tag(:patient_id, options_from_collection_for_select(User.patients, :id, :full_name), class: "NewSchedulePage-dropdown") %>
+        </div>
+        <div class="NewSchedule-Form-section">
+            <p><%= form.label :schedule, "Schedule at:" %></p>
+            <%= check_box_tag "schedule[]", "Morning", false, class: "NewSchedulePage-checkbox" %>Morning
+            <%= check_box_tag "schedule[]", "Evening", false, class: "NewSchedulePage-checkbox" %>Evening
+        </div>
+        <div class="NewSchedule-Form-section">    
+            <p><%= form.label :duration, "Duration:" %></p>
+            <%= form.number_field :duration, in: 1..300, value: 60, class: "NewSchedulePage-duration" %>
+        </div>
+        <div class="NewSchedule-Form-section">    
+            <p><%= form.label :assign_date, "Start Date:" %></p>
+            <%= date_field_tag :assign_date, Date.today(), class: "NewSchedulePage-startdate" %>
+        </div>
+        <div class="NewSchedule-Form-section">    
+            <p><%= form.label :complete_date, "End Date:" %></p>
+            <%= date_field_tag :complete_date, Date.today() + 7, class: "NewSchedulePage-enddate" %>
+        </div>
+        <div class="NewSchedule-Form-section">    
+            <%= form.submit "Add Schedule", class: "Form-submit" %>
+        </div>
+    <% end %>
+</section>

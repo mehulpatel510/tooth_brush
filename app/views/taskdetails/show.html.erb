@@ -1,0 +1,76 @@
+<div class="AdminDashboardPage">
+    <div class="DashboardPage-header">
+        <p class="DashboardPage-title">Patient Task Schedule History</p>
+         <a href="javascript:void(0)" class="DashboardPage-link" title="Dashboard">
+            <%= form_with(url: schedules_path, method: "get") do %>
+                <%= image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "History") %>
+            <% end %>
+        </a>   
+    </div>
+    <hr/>
+    <section class="AdminDashboardPage-users">
+    <% if @taskdetails.count != 0 %>
+        <table class="AdminPage-table">
+            <tr><th>Id</th><th>Task Date</th><th>Schedule Slot</th><th>Duration<br/>(secons)</th><th></th><th></th></tr>
+            <% @taskdetails.each do |taskdetail| %>
+                <%= form_with(url: "/taskdetails/#{taskdetail.id}/edit", method: "get") do %>
+                <tr>
+                    <td class="Table-cell-center">
+                        <%= taskdetail.id %>
+                    </td>
+                    <td>
+                        <% if @taskdetail_id == taskdetail.id && @button == "edit" %>
+                            <%= date_field_tag :task_date, taskdetail.task_date %>
+                        <% else %>
+                            <%= taskdetail.task_date %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <% if @taskdetail_id == taskdetail.id && @button == "edit" %>
+                            <%= radio_button_tag "schedule_slot", "Morning", checked = taskdetail.schedule_slot.include?("Morning") %> Morning
+                            <%= radio_button_tag "schedule_slot", "Evening", checked = taskdetail.schedule_slot.include?("Evening") %> Evening
+                        <% else %>
+                            <%= taskdetail.schedule_slot %>
+                        <% end %>
+                    </td>
+                    <td class="Table-cell-center">
+                        <% if @taskdetail_id == taskdetail.id && @button == "edit" %>
+                            <%= number_field_tag "duration", taskdetail.duration, in: 1..300, class: "Schedule-duration" %>
+                        <% else %>
+                            <%= taskdetail.duration %>
+                        <% end %>
+                    </td>
+                    <td class="Table-cell-center">
+                    <div>
+                        <% if @taskdetail_id == taskdetail.id && @button == "edit" %>
+                            <a href="javascript:void(0)" title="Save" class="Table-cell-center">
+                                <%= hidden_field_tag("button", "save") %>
+                                <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
+                            </a>
+                        <% else %>
+                            <a href="javascript:void(0)" title="Edit" class="Table-cell-center">
+                                <%= hidden_field_tag("button", "edit") %>
+                                <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
+                            </a>        
+                        <% end %>  
+                    </div>
+                    </td>
+                <% end %>
+                    <td class="Table-cell-center">
+                    <div class="Schedule-button">
+                        <a href="javascript:void(0)" title="Delete">
+                            <%= form_with(url: "/taskdetails/#{taskdetail.id}", method: "delete") do %>
+                                <%= image_submit_tag("delete.svg", class: "Schedule-img") %>
+                            <% end %>
+                        </a>
+                    </div>
+                    </td>
+                </tr>
+            <% end %>
+            </table>
+    <% else %>
+        Record Not Found!!!
+    <% end %>    
+    </section>
+</div>
+   

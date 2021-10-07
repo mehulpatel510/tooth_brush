@@ -1,0 +1,243 @@
+.DashboardPage {
+    border: 1px solid rgb(139, 133, 133);
+    border-radius: 10px;
+    margin: 10px;
+    align-items: center;
+    padding: 20px;
+}
+
+.DashboardPage-header {
+    display: flex;
+    align-items: center;
+}
+
+.DashboardPage-title {
+    font-style: italic;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 28px;
+    color: blue;
+    line-height: 1.4;
+    margin: 0px auto 0px 0px;
+    padding: 10px;
+}
+
+.DashboardPage-links {
+    display: flex;
+    margin: 10px;
+}
+
+.DashboardPage-link {
+    margin: 0px 0px 0px auto;
+    color: blue;
+}
+
+.DashboardPage-schedules {
+    margin: auto;
+}
+
+.DashboardPage-schedules-selection {
+    padding: 5px;
+}
+
+.DashboardPage-schedule-list {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+    justify-items: center;
+    padding-left: auto;
+    padding-right: auto;
+}
+
+.Schedule-block {
+    border: 1px solid rgb(139, 133, 133);
+    border-radius: 10px;
+    margin: 5px;
+    align-items: center;
+    padding: 5px;
+    min-width: 350px;
+}
+
+.Schedule-block-bar {
+    border: 1px solid rgb(139, 133, 133);
+    margin: 5px;
+    align-items: center;
+    min-width: 350px;
+    display: flex;
+}
+
+.Schedule-block-bar-color {
+    background-color: rgb(139, 133, 133);
+    border: 1px solid rgb(139, 133, 133);
+    color: white;
+    padding: 10px;
+    text-align: right;
+}
+
+.Schedule-block-firstline {
+    display: flex;
+    justify-items: center;
+}
+
+.Schedules-li {
+    margin: 5px;
+    align-items: center;
+    justify-items: center;
+}
+
+.Schedule-checkbox {
+    margin: 10px;
+}
+
+.Schedule-Text {
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    align-content: center;
+}
+
+.Schedule-title {
+    vertical-align: 0px;
+}
+
+.Schedule-Text-value {
+    margin-left: 5px;
+    color: mediumblue;
+}
+
+.Schedule-date {
+    margin: 0px 10px;
+}
+
+.Schedule-button {
+    display: flex;
+    align-items: center;
+}
+
+.Schedule-button-history {
+    margin: 0px auto 0px 0px;
+}
+
+.Schedule-button-delete {
+    margin: 0px 0px 0px auto;
+}
+
+.DashboardPage-link-history {
+    margin-right: 190px;
+    margin-left: 10px;
+    align-content: flex-end;
+}
+
+.Schedule-duration {
+    max-width: 50px;
+    font-size: 14px;
+}
+
+.Schedule-task-complete {
+    align-items: center;
+    margin: auto;
+}
+
+.Schedule-task-block {
+    display: flex;
+    vertical-align: top;
+    align-items: center;
+    margin: auto;
+    padding: auto;
+    font-size: 16px;
+}
+
+.Schedule-img-task {
+    max-height: 30px;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.Schedule-img-header {
+    max-height: 50px;
+}
+
+.Schedule-img {
+    max-height: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.Schedule-img-delete {
+    max-height: 20px;
+}
+
+.Schedules-li .Schedule-img {
+    visibility: hidden;
+}
+
+.Schedules-li .Schedule-img-delete {
+    visibility: hidden;
+}
+
+.Schedules-li:hover .Schedule-img {
+    visibility: visible;
+}
+
+.Schedules-li:hover .Schedule-img-delete {
+    visibility: visible;
+}
+
+.Schedule-img-save {
+    max-height: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.NewSchedule {
+    border: 1px solid rgb(139, 133, 133);
+    border-radius: 10px;
+    margin: 10px;
+    align-items: center;
+    padding: 5px;
+    padding-left: 30px;
+}
+
+.NewSchedule-Form-section {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+
+.NewSchedulePage-dropdown {
+    font-size: 16px;
+    margin-left: 15px;
+    padding: 2px;
+}
+
+.Form-submit {
+    font-size: 20px;
+    padding: 10px;
+    background-color: rgb(6, 172, 6);
+    border-radius: 5px;
+    border-style: hidden;
+}
+
+.NewSchedulePage-checkbox {
+    align-content: stretch;
+    margin-left: 30px;
+    padding: 5px;
+}
+
+.NewSchedulePage-duration {
+    margin-left: 50px;
+    padding: 2px;
+    font-size: 16px;
+}
+
+.NewSchedulePage-startdate {
+    font-size: 16px;
+    margin-left: 40px;
+}
+
+.NewSchedulePage-enddate {
+    margin-left: 45px;
+    font-size: 16px;
+}

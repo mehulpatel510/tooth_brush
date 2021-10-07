@@ -1,0 +1,64 @@
+.HomePage {
+    border: 1px solid rgb(139, 133, 133);
+    border-radius: 10px;
+    align-items: center;
+    margin: 10px;
+}
+
+.HomePage-signin {
+    border: 1px solid rgb(139, 133, 133);
+    border-radius: 10px;
+    align-items: center;
+    margin: 10px;
+}
+
+.HomePage-introduction-title {
+    margin: 20px;
+    font-size: 30px;
+}
+
+.HomePage-list {
+    margin: 20px;
+    list-style: decimal;
+}
+
+ol li {
+    padding: 10px;
+    margin-left: 50px;
+}
+
+.UsersNew {
+    border: 1px lightgray solid;
+    border-radius: 5px;
+}
+
+.Form-section {
+    margin: 20px;
+}
+
+.FormInput-label {
+    color: rgb(58, 54, 54);
+}
+
+.Form-input {
+    margin-top: 5px;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.Form-submit {
+    font-size: 20px;
+    padding: 10px;
+    background-color: rgb(6, 172, 6);
+    border-radius: 5px;
+    border-style: hidden;
+}
+
+.Flash-error {
+    color: red;
+    margin: 20px;
+    font-size: 16px;
+    background-color: lightpink;
+    padding: 20px;
+    border-radius: 5px;
+}

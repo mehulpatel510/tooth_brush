@@ -1,0 +1,37 @@
+<div class="AdminDashboardPage">
+    <div class="DashboardPage-header">
+        <p class="DashboardPage-title">Admin Dashboard</p>
+        <div class="DashboardPage-links">
+        <a href="javascript:void(0)" class="DashboardPage-link" title="Add New Doctor">
+            <%= form_with(url: new_user_path, method: "get") do %>
+                <%= image_submit_tag("add.jpg", class: "Schedule-img-task", alt: "History") %>
+            <% end %>
+        </a>
+        <a href="javascript:void(0)" class="DashboardPage-link" title="Manage Users">
+            <%= form_with(url: "/users/manage", method: "get") do %>
+                <%= image_submit_tag("users.png", class: "Schedule-img-task", alt: "Manage User") %>
+            <% end %>
+        </a>
+        </div>
+    </div>
+    <hr/>
+    <section class="DashboardPage-schedules-selection">
+        <% @show_user = session[:show_user] %>
+        <% @show_user = (@show_user == nil || @show_user.empty?) ? "both" : @show_user %>
+        <%= form_with(url: "/users/show", method: "get") do %>
+            Show <%= radio_button_tag :status, "true", @status == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
+            <%= radio_button_tag :status, "false", @status == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
+            <%= radio_button_tag :status, "both", @status == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
+        <% end %>
+    </section>
+    <section class="DashboardPage-schedules">
+        <div class="DashboardPage-schedule-list">
+            <div class="Schedule-block">
+                <%= pie_chart @users.group(:user_role).count, title: "No of Users" %>
+            </div>
+            <div class="Schedule-block">
+                <%= column_chart @users.joins("INNER JOIN schedules ON schedules.patient_id = users.id INNER JOIN taskdetails ON taskdetails.schedule_id = schedules.id").group(:first_name).group_by_day(:task_date, format: "%d-%m").count, title: "Patient's Scheduled Tasks Moniter", dataset: { borderWidth: 1 }, empty: "No data", loading: "Loading...", zeros: true, precision: 2, xtitle: "Time", ytitle: "Frequency/User", label: "Value", stacked: false %>
+            </div>
+        </div>
+    </section>
+</div>

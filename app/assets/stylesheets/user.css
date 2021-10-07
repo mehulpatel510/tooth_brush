@@ -1,0 +1,79 @@
+.NewUsers-title {
+    margin: 20px;
+    font-size: 30px;
+}
+
+.UsersNew {
+    border: 1px solid rgb(139, 133, 133);
+    border-radius: 5px;
+}
+
+.Form-section {
+    margin: 10px;
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    align-items: center;
+}
+
+.FormInput-label {
+    color: rgb(58, 54, 54);
+}
+
+.Form-input {
+    margin: 10px;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(139, 133, 133);
+}
+
+.Form-submit {
+    font-size: 20px;
+    padding: 10px;
+    background-color: rgb(6, 172, 6);
+    border-radius: 5px;
+    border-style: hidden;
+}
+
+th, td {
+    border: 1px solid rgb(139, 133, 133);
+    padding: 5px;
+    align-items: center;
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+th {
+    font-weight: bold;
+    padding: 10px;
+}
+
+.Table-cell-center {
+    text-align: center;
+    align-items: center;
+}
+
+.AdminDashBoard-edit-textbox {
+    max-width: 100px;
+}
+
+.AdminDashboardPage {
+    border: 1px solid rgb(139, 133, 133);
+    border-radius: 10px;
+    margin: 10px;
+    align-items: center;
+    padding: 20px;
+    min-width: 700px;
+}
+
+.AdminDashboardPage-users {
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.AdminPage-table {
+    align-items: center;
+    margin: auto;
+}

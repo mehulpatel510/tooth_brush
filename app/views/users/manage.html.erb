@@ -1,0 +1,96 @@
+<div class="AdminDashboardPage">
+    <div class="DashboardPage-header">
+        <p class="DashboardPage-title">Manage Users</p>
+        <div class="DashboardPage-links">
+        <a href="javascript:void(0)" class="DashboardPage-link" title="Add New Doctor">
+            <%= form_with(url: new_user_path, method: "get") do %>
+                <%= image_submit_tag("add.jpg", class: "Schedule-img-task", alt: "History") %>
+            <% end %>
+        </a>
+        <a href="javascript:void(0)" class="DashboardPage-link" title="Dashboard">
+            <%= form_with(url: users_path, method: "get") do %>
+                <%= image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard") %>
+            <% end %>
+        </a>
+        </div>
+    </div>
+    <hr/>
+    <section class="DashboardPage-schedules-selection">
+        <% @show_user = session[:show_user] %>
+        <% @show_user = (@show_user == nil || @show_user.empty?) ? "both" : @show_user %>
+        <%= form_with(url: "/users/manage", method: "get") do %>
+            Show <%= radio_button_tag :show_user, "doctor", @show_user == "doctor" ? true : false, onclick: "this.form.submit()" %> Only doctors
+            <%= radio_button_tag :show_user, "patient", @show_user == "false" ? true : false, onclick: "this.form.submit()" %> Only patients
+            <%= radio_button_tag :show_user, "both", @show_user == "both" ? true : false, onclick: "this.form.submit()" %> All users
+        <% end %>
+    </section>
+    <section class="AdminDashboardPage-users">
+        <table class="AdminPage-table">
+        <tr><th>Status</th><th>User id</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>User Role</th><th></th><th></th></tr>
+            <% @users.each do |user| %>
+             <tr>
+                <%= form_with(url: "/users/#{user.id}", method: "put") do %>
+                    <td class="Table-cell-center"> 
+                        <%= check_box_tag :status, nil, user.status, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
+                    </td>
+                <% end %>     
+                <%= form_with(url: "/users/#{user.id}/edit", method: "get") do %>
+                        <td class="Table-cell-center">
+                            <%= user.id %>
+                        </td>
+                        <td>
+                            <% if @user_id == user.id && @button == "edit" %>
+                                <%= text_field_tag "first_name", user.first_name, class: "AdminDashBoard-edit-textbox" %>
+                            <% else %>
+                                <%= user.first_name %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if @user_id == user.id && @button == "edit" %>
+                                <%= text_field_tag "last_name", user.last_name, class: "AdminDashBoard-edit-textbox" %>
+                            <% else %>
+                                <%= user.last_name %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if @user_id == user.id && @button == "edit" %>
+                                <%= text_field_tag "email", user.email %>
+                            <% else %>
+                                <%= user.email %>
+                            <% end %>
+                        </td>
+                        <td class="Table-cell-center">
+                            <% if user.user_role == "admin" %>
+                                <%= user.user_role %>
+                            <% elsif @user_id == user.id && @button == "edit" %>
+                                <%= select_tag "user_role", options_for_select(["doctor", "patient"], user.user_role) %>
+                            <% else %>
+                                <%= user.user_role %>
+                            <% end %>
+                        </td>
+                        <td class="Table-cell-center">
+                        <div class="Schedule-button">
+                            <% if @user_id == user.id && @button == "edit" %>
+                                <%= hidden_field_tag("button", "save") %>
+                                <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
+                            <% else %>
+                                <%= hidden_field_tag("button", "edit") %>
+                                <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
+                            <% end %>    
+                        </div>
+                        </td>
+                <% end %>
+                        <td class="Table-cell-center">
+                        <div class="Schedule-button">
+                            <a href="javascript:void(0)">
+                               <%= form_with(url: "/users/#{user.id}", method: "delete") do %>
+                                    <%= image_submit_tag("delete.svg", class: "Schedule-img") %>
+                                <% end %>
+                            </a>
+                        </div>
+                        </td>
+                </tr>
+            <% end %>
+        </table>
+    </section>
+</div>

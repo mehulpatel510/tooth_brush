@@ -1,0 +1,23 @@
+<div class="DashboardPage">
+    <div class="DashboardPage-header">
+        <p class="DashboardPage-title">Summary of assigned brushing schedule</p>
+        <a href="javascript:void(0)" class="DashboardPage-link" title="Dashboard">
+            <%= form_with(url: schedules_path, method: "get") do %>
+                <%= image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "History") %>
+            <% end %>
+        </a>
+    </div>
+    <hr/>
+    <section class="DashboardPage-schedules-selection">
+        <% @status = session[:status] %>
+        <% @status = (@status == nil || @status.empty?) ? "true" : @status %>
+        <%= form_with(url: "/schedules/summary", method: "get") do %>
+            Show <%= radio_button_tag :status, "true", @status == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
+            <%= radio_button_tag :status, "false", @status == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
+            <%= radio_button_tag :status, "both", @status == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
+        <% end %>
+    </section>
+    <section>
+        <%= column_chart @schedules.where(doctor_id: @current_user.id).joins("INNER JOIN users ON schedules.patient_id = users.id INNER JOIN taskdetails ON taskdetails.schedule_id = schedules.id").group(:first_name).group_by_day_of_week(:task_date, format: "%d-%m").count, title: "Patient's Scheduled Tasks Moniter", dataset: { borderWidth: 3 }, empty: "No data", loading: "Loading...", zeros: true, precision: 2, xtitle: "Time", ytitle: "Frequency/User", label: "Value", stacked: false, xmin: "2021-09-29", xmax: "2022-01-01" %>
+    </section>
+</div>

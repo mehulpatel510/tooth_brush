@@ -1,0 +1,149 @@
+<div class="DashboardPage">
+    <div class="DashboardPage-header">
+        <p class="DashboardPage-title">Patient Dashboard</p>
+    </div>
+    <hr/>
+    <section class="DashboardPage-schedules-selection">
+        <% @status = session[:status] %>
+        <% @status = (@status == nil || @status.empty?) ? "true" : @status %>
+        <%= form_with(url: "/schedules/show", method: "get") do %>
+            Show <%= radio_button_tag :status, "true", @status == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
+            <%= radio_button_tag :status, "false", @status == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
+            <%= radio_button_tag :status, "both", @status == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
+        <% end %>
+    </section>
+    <section class="DashboardPage-schedules">
+        <div class="DashboardPage-schedule-list">
+            <% @schedules.each do |schedule| %>
+                <div class="Schedules-li">
+                    <div class="Schedule-block">
+                        <%= form_with(url: "/schedules/#{schedule.id}", method: "put") do %>
+                            <%= check_box_tag :status, nil, schedule.status, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
+                            Current Status
+                        <% end %>
+                        <div class='Schedule-Text'><p>Doctor Name: </p><p class="Schedule-Text-value"><%= schedule.doctor_name %></p></div>
+                        <div class='Schedule-Text'>
+                        <p>Brushing Schedule: </p>
+                        <p class="Schedule-Text-value">
+                        <% if @field == "schedule" && @schedule_id == schedule.id && @button == "edit" %>
+                            <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
+                                <%= check_box_tag "schedule[]", "Morning", checked = schedule.schedule.include?("Morning") %> Morning
+                                <%= check_box_tag "schedule[]", "Evening", checked = schedule.schedule.include?("Evening") %> Evening
+                                    
+                                <%= hidden_field_tag("field", "schedule") %>
+                                <%= hidden_field_tag("button", "save") %>
+                                <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
+                            <% end %>
+                        <% else %>
+                            <%= schedule.schedule %> 
+                            <a href="javascript:void(0)" title="Edit">
+                            <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
+                                <%= hidden_field_tag("field", "schedule") %>
+                                <%= hidden_field_tag("button", "edit") %>
+                                <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
+                            <% end %>
+                            </a>
+                        <% end %>
+                        </p>
+                            
+                        </div>
+                        <div class='Schedule-Text'>
+                        <p class="Schedule-title" >Brushing Duration: </p>
+                        <p class="Schedule-Text-value">
+                            <% if @field == "duration" && @schedule_id == schedule.id && @button == "edit" %>
+                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
+                                    <%= number_field_tag "duration", schedule.duration, in: 1..300, class: "Schedule-duration" %>
+                                        seconds
+                                    <%= hidden_field_tag("field", "duration") %>
+                                    <%= hidden_field_tag("button", "save") %>
+                                    <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
+                                <% end %>
+                            <% else %>
+                                <%= schedule.duration %> seconds
+                                <a href="javascript:void(0)" title="Edit">
+                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
+                                    <%= hidden_field_tag("field", "duration") %>
+                                    <%= hidden_field_tag("button", "edit") %>
+                                    <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
+                                <% end %>
+                                </a>
+                            <% end %>
+                        </p>
+                        </div>
+                        <div class="Schedule-Text"><p class="Schedule-title">Starting Date: </p>
+                        <p class="Schedule-Text-value">
+                            <% if @field == "assign_date" && @schedule_id == schedule.id && @button == "edit" %>
+                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
+                                    <%= date_field_tag :assign_date, schedule.assign_date, class: "NewSchedulePage-startdate" %>
+                                    <%= hidden_field_tag("button", "save") %>
+                                    <%= hidden_field_tag("field", "assign_date") %>
+                                    <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
+                                <% end %>
+                            <% else %>
+                                <%= schedule.assign_date.to_s(:short) %>
+                                <a href="javascript:void(0)" title="Edit">
+                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
+                                    <%= hidden_field_tag("field", "assign_date") %>
+                                    <%= hidden_field_tag("button", "edit") %>
+                                    <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
+                                <% end %>
+                                </a>
+                            <% end %>
+                        </p>
+                        </div>
+                        <div class="Schedule-Text"><p  class="Schedule-title">Completion Date: </p>
+                        <p class="Schedule-Text-value">
+                        <% if @field == "complete_date" && @schedule_id == schedule.id && @button == "edit" %>
+                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
+                                    <%= date_field_tag :complete_date, schedule.complete_date, class: "NewSchedulePage-startdate" %>
+                                    <%= hidden_field_tag("button", "save") %>
+                                    <%= hidden_field_tag("field", "complete_date") %>
+                                    <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
+                                <% end %>
+                            <% else %>
+                                <%= schedule.complete_date.to_s(:short) %>
+                                <a href="javascript:void(0)" title="Edit">
+                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
+                                    <%= hidden_field_tag("field", "complete_date") %>
+                                    <%= hidden_field_tag("button", "edit") %>
+                                    <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
+                                <% end %>
+                                </a>
+                            <% end %>
+                            </p>
+                        </div>
+                        <div class="Schedule-button">
+                            <a href="javascript:void(0)" class="Schedule-button-history" title="History">
+                                <%= form_with(url: "/taskdetails/#{schedule.id}", method: "get") do %>
+                                    <%= image_submit_tag("history.png", class: "Schedule-img-task", alt: "History") %>
+                                <% end %>
+                            </a>
+                            <a href="javascript:void(0)" class="Schedule-button-delete" title="Delete">
+                                <%= form_with(url: "/schedules/#{schedule.id}", method: "delete") do %>
+                                    <%= image_submit_tag("delete.svg", class: "Schedule-img-delete") %>
+                                <% end %>
+                            </a>
+                        </div>
+                        <div class="Schedule-task-block">
+                        <%= form_with(url: "/taskdetails", method: "post") do %>
+                            <div class="Schedule-task">
+                                <% if schedule.schedule.include?("Morning") %>
+                                    <%= radio_button_tag "schedule", "Morning", checked = schedule.schedule.include?("Morning") %> Morning
+                                <% end %>
+                                <% if schedule.schedule.include?("Evening") %>
+                                    <%= radio_button_tag "schedule", "Evening", checked = schedule.schedule.include?("Evening") %> Evening
+                                <% end %>         
+                                <a title="Complete" >
+                                    <%= hidden_field_tag("schedule_id", schedule.id) %>
+                                    <%= hidden_field_tag("duration", schedule.duration) %>
+                                    <%= image_submit_tag("task.png", class: "Schedule-img-task", disabled: !schedule.status) %>
+                                </a>
+                            </div>
+                        <% end %>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </section>
+</div>

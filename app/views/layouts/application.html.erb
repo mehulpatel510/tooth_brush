@@ -6,11 +6,34 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "application", media: "all", 'data-turbolinks-track': "reload" %>
+    <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
+    <%= favicon_link_tag "favicon.ico" %>
   </head>
 
   <body>
+    <h1 class="Header-title">Smart Tooth Brush Management</h1>
+    <div class="Header-menu">
+        <% if flash[:error] %>
+            <p class="Flash-error"><%= flash[:error] %><p/>
+        <% elsif flash[:info] %>
+            <p class="Flash-info"><%= flash[:info] %><p/>
+        <% end %> 
+            
+        <% if @current_user %>
+            <p class="Userheader">
+              Welcome, <%= @current_user.full_name %>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <%= link_to "Sign-out", destroy_session_path, method: "delete" %>
+            </p>
+        <% else %>
+            <p class="Userheader">
+              <%= link_to "Sign-in", sessions_path, method: "get", class: "Userheader-link" %>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <%= link_to "Sign-up", new_user_path, method: "get", class: "Userheader-link" %>
+            </p>
+        <% end %>
+    </div>
     <%= yield %>
   </body>
 </html>
