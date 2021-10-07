@@ -25,104 +25,43 @@
                         <div class='Schedule-Text'>
                         <p>Brushing Schedule: </p>
                         <p class="Schedule-Text-value">
-                        <% if @field == "schedule" && @schedule_id == schedule.id && @button == "edit" %>
-                            <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                <%= check_box_tag "schedule[]", "Morning", checked = schedule.schedule.include?("Morning") %> Morning
-                                <%= check_box_tag "schedule[]", "Evening", checked = schedule.schedule.include?("Evening") %> Evening
-                                    
-                                <%= hidden_field_tag("field", "schedule") %>
-                                <%= hidden_field_tag("button", "save") %>
-                                <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
-                            <% end %>
-                        <% else %>
                             <%= schedule.schedule %> 
-                            <a href="javascript:void(0)" title="Edit">
-                            <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                <%= hidden_field_tag("field", "schedule") %>
-                                <%= hidden_field_tag("button", "edit") %>
-                                <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
-                            <% end %>
-                            </a>
-                        <% end %>
                         </p>
                             
                         </div>
                         <div class='Schedule-Text'>
                         <p class="Schedule-title" >Brushing Duration: </p>
                         <p class="Schedule-Text-value">
-                            <% if @field == "duration" && @schedule_id == schedule.id && @button == "edit" %>
-                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                    <%= number_field_tag "duration", schedule.duration, in: 1..300, class: "Schedule-duration" %>
-                                        seconds
-                                    <%= hidden_field_tag("field", "duration") %>
-                                    <%= hidden_field_tag("button", "save") %>
-                                    <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
-                                <% end %>
-                            <% else %>
                                 <%= schedule.duration %> seconds
-                                <a href="javascript:void(0)" title="Edit">
-                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                    <%= hidden_field_tag("field", "duration") %>
-                                    <%= hidden_field_tag("button", "edit") %>
-                                    <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
-                                <% end %>
-                                </a>
-                            <% end %>
                         </p>
                         </div>
                         <div class="Schedule-Text"><p class="Schedule-title">Starting Date: </p>
                         <p class="Schedule-Text-value">
-                            <% if @field == "assign_date" && @schedule_id == schedule.id && @button == "edit" %>
-                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                    <%= date_field_tag :assign_date, schedule.assign_date, class: "NewSchedulePage-startdate" %>
-                                    <%= hidden_field_tag("button", "save") %>
-                                    <%= hidden_field_tag("field", "assign_date") %>
-                                    <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
-                                <% end %>
-                            <% else %>
                                 <%= schedule.assign_date.to_s(:short) %>
-                                <a href="javascript:void(0)" title="Edit">
-                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                    <%= hidden_field_tag("field", "assign_date") %>
-                                    <%= hidden_field_tag("button", "edit") %>
-                                    <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
-                                <% end %>
-                                </a>
-                            <% end %>
                         </p>
                         </div>
                         <div class="Schedule-Text"><p  class="Schedule-title">Completion Date: </p>
                         <p class="Schedule-Text-value">
-                        <% if @field == "complete_date" && @schedule_id == schedule.id && @button == "edit" %>
-                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                    <%= date_field_tag :complete_date, schedule.complete_date, class: "NewSchedulePage-startdate" %>
-                                    <%= hidden_field_tag("button", "save") %>
-                                    <%= hidden_field_tag("field", "complete_date") %>
-                                    <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
-                                <% end %>
-                            <% else %>
                                 <%= schedule.complete_date.to_s(:short) %>
-                                <a href="javascript:void(0)" title="Edit">
-                                <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                    <%= hidden_field_tag("field", "complete_date") %>
-                                    <%= hidden_field_tag("button", "edit") %>
-                                    <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
-                                <% end %>
-                                </a>
-                            <% end %>
-                            </p>
+                        </p>
+                        </div>
+                        <div class="Schedule-Text">
+                            <% performance, no_of_completed_task, no_of_expected_task = schedule.patient_performance() %>
+                            <p  class="Schedule-title">Performace: </p>
+                            <p class="Schedule-Text-value"><%= no_of_completed_task.to_s %> / <%= no_of_expected_task.to_s %> </p>
                         </div>
                         <div class="Schedule-button">
+                            <div class="Schedule-block-bar">
+                                <div class="Schedule-block-bar-color" style="min-width:<%= performance * 93.6 %>%;background-color: rgb(<%= (255 * (1 - performance)).to_i %>, <%= (255 * (performance)).to_i %>, 0);">
+                                <%= (performance * 100).round(2) %> %
+                                </div>
+                            </div>
                             <a href="javascript:void(0)" class="Schedule-button-history" title="History">
                                 <%= form_with(url: "/taskdetails/#{schedule.id}", method: "get") do %>
                                     <%= image_submit_tag("history.png", class: "Schedule-img-task", alt: "History") %>
                                 <% end %>
                             </a>
-                            <a href="javascript:void(0)" class="Schedule-button-delete" title="Delete">
-                                <%= form_with(url: "/schedules/#{schedule.id}", method: "delete") do %>
-                                    <%= image_submit_tag("delete.svg", class: "Schedule-img-delete") %>
-                                <% end %>
-                            </a>
+                            
                         </div>
                         <div class="Schedule-task-block">
                         <%= form_with(url: "/taskdetails", method: "post") do %>
@@ -141,6 +80,7 @@
                             </div>
                         <% end %>
                         </div>
+                        
                     </div>
                 </div>
             <% end %>

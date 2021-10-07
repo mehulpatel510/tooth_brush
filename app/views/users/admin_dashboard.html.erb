@@ -30,7 +30,7 @@
                 <%= pie_chart @users.group(:user_role).count, title: "No of Users" %>
             </div>
             <div class="Schedule-block">
-                <%= column_chart @users.joins("INNER JOIN schedules ON schedules.patient_id = users.id INNER JOIN taskdetails ON taskdetails.schedule_id = schedules.id").group(:first_name).group_by_day(:task_date, format: "%d-%m").count, title: "Patient's Scheduled Tasks Moniter", dataset: { borderWidth: 1 }, empty: "No data", loading: "Loading...", zeros: true, precision: 2, xtitle: "Time", ytitle: "Frequency/User", label: "Value", stacked: false %>
+                <%= column_chart @users.joins("INNER JOIN schedules ON schedules.patient_id = users.id INNER JOIN taskdetails ON taskdetails.schedule_id = schedules.id").group(:first_name).group_by_day(:task_date, format: "%d-%m").count, title: "Patient's Scheduled Tasks Moniter", dataset: { borderWidth: 1 }, empty: "No data", loading: "Loading...", zeros: true, precision: 2, xtitle: "Date", ytitle: "Frequency/User/Day", label: "Value", stacked: false %>
             </div>
         </div>
     </section>

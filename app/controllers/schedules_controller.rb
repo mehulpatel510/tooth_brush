@@ -105,8 +105,8 @@ class SchedulesController < ApplicationController
 
   def check_schedules_status
     @status = params[:status] == nil ? session[:status] : params[:status]
+    @status = (@status == nil || @status.empty?) ? "true" : @status
     session[:status] = @status
-
     if @status != "both"
       @schedules = @schedules.where(status: @status)
     end

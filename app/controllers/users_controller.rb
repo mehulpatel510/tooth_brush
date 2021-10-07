@@ -20,6 +20,7 @@ class UsersController < ApplicationController
 
   def find_users_by_role
     @show_user = params[:show_user] == nil ? session[:show_user] : params[:show_user]
+    @show_user = (@show_user == nil || @show_user.empty?) ? "both" : @show_user
     session[:show_user] = @show_user
     if @show_user && @show_user != "both"
       @users = User.where(user_role: @show_user)
