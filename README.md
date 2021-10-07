@@ -1,4 +1,4 @@
-WD201 - Capstone Project – Tooth Brushing Management for Dentist patient
+**WD201 - Capstone Project – Tooth Brushing Management for Dentist patient**
 
 Introduction: 
     In the case of dentist-patient, generally, doctors assign brushing for a specific time when some special treatment is going on patient’s teeth. If the patient doing more or less brushing, then it affects the result of treatment. Our Plan is to develop a web application through which dentists assign a brushing schedule for specific time, morning/evening on each day. Patients complete the task with a specific time in seconds and update in the web portal (initial manually and then automatically IoT based). The doctor observes the brushing time of the patient, which helps for analysis of the treatment’s result.
@@ -18,8 +18,9 @@ The functionality of web portal:
     7.	Admin can observe the no of users & a report brushing a teeth performance according to a task assign by the doctor.
 
 Schema:
+    
     User(id: integer, first_name: text, last_name: text, email: text, password_digest: text, user_role: text, status: boolean, created_at: datetime, updated_at: datetime)
 
     Schedule(id: integer, patient_id: integer, doctor_id: integer, schedule: text, duration: integer, assign_date: date, complete_date: date, status: boolean, created_at: datetime, updated_at: datetime)
-
+    
     Taskdetail(id: integer, schedule_id: integer, task_date: date, schedule_slot: text, duration: integer, created_at: datetime, updated_at: datetime)
