@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
   def manage
     ensure_user_logged_id()
-    if current_user == "admin"
+    if current_user != "admin"
       render sessions_path
     end
     find_users_by_role()
@@ -31,6 +31,7 @@ class UsersController < ApplicationController
 
   def find_user_by_status
     @status = params[:status] == nil ? session[:status] : params[:status]
+    @status = (@status == nil || @status.empty?) ? "both" : @status 
     session[:status] = @status
     if @status != "both"
       @users = User.where(status: @status)

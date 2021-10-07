@@ -16,8 +16,8 @@
     </div>
     <hr/>
     <section class="DashboardPage-schedules-selection">
-        <% @show_user = session[:show_user] %>
-        <% @show_user = (@show_user == nil || @show_user.empty?) ? "both" : @show_user %>
+        <% @status = session[:status] %>
+        <% @status = (@status == nil || @status.empty?) ? "both" : @status %>
         <%= form_with(url: "/users/show", method: "get") do %>
             Show <%= radio_button_tag :status, "true", @status == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
             <%= radio_button_tag :status, "false", @status == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
