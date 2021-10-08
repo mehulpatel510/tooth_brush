@@ -10,8 +10,8 @@ class UsersController < ApplicationController
 
   def manage
     ensure_user_logged_id()
-    if current_user != "admin"
-      render sessions_path
+    if current_user.user_role != "admin"
+      render session_path
     end
     find_users_by_role()
     @users = User.order(:id)
