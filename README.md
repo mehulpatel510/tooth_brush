@@ -28,7 +28,7 @@
 **Demonstration:**
     URL: https://mehulpatel-tooth-brush-wd201.herokuapp.com/
     
-**Demo Account**
+**Demo Account Detail**
     
     admin account: 
         username: mehul@gmail.com 
