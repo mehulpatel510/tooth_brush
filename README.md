@@ -25,6 +25,9 @@
     
     Taskdetail(id: integer, schedule_id: integer, task_date: date, schedule_slot: text, duration: integer, created_at: datetime, updated_at: datetime)
 
+**Demonstration:**
+    URL: https://mehulpatel-tooth-brush-wd201.herokuapp.com/
+    
 **Demo Account**
     admin account: 
         username: mehul@gmail.com 
