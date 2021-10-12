@@ -18,11 +18,11 @@ ActiveRecord::Schema.define(version: 2021_09_21_092139) do
   create_table "schedules", force: :cascade do |t|
     t.integer "patient_id"
     t.integer "doctor_id"
-    t.text "schedule"
+    t.text "schedule_slot"
     t.integer "duration"
     t.date "assign_date"
     t.date "complete_date"
-    t.boolean "status"
+    t.boolean "active_schedule"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2021_09_21_092139) do
     t.text "email"
     t.text "password_digest"
     t.text "user_role"
-    t.boolean "status"
+    t.boolean "active_user"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

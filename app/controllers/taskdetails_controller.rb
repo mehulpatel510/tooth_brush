@@ -14,7 +14,7 @@ class TaskdetailsController < ApplicationController
       new_schedule_task = Taskdetail.new(
         schedule_id: params[:schedule_id],
         task_date: Date.today(),
-        schedule_slot: params[:schedule],
+        schedule_slot: params[:schedule_slot],
         duration: params[:duration],
       )
       if !new_schedule_task.save

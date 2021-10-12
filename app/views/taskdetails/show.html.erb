@@ -1,17 +1,13 @@
 <div class="AdminDashboardPage">
     <div class="DashboardPage-header">
         <p class="DashboardPage-title">Patient Task Schedule History</p>
-         <a href="javascript:void(0)" class="DashboardPage-link" title="Dashboard">
-            <%= form_with(url: schedules_path, method: "get") do %>
-                <%= image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "History") %>
-            <% end %>
-        </a>   
+        <%= link_to image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard"), schedules_path, title: "Dashboard" %>
     </div>
     <hr/>
     <section class="AdminDashboardPage-users">
     <% if @taskdetails.count != 0 %>
         <table class="AdminPage-table">
-            <tr><th>Id</th><th>Task Date</th><th>Schedule Slot</th><th>Duration<br/>(secons)</th><th></th><th></th></tr>
+            <tr><th>Task detail Id</th><th>Task Date</th><th>Schedule Slot</th><th>Duration<br/>(secons)</th><th></th><th></th></tr>
             <% @taskdetails.each do |taskdetail| %>
                 <%= form_with(url: "/taskdetails/#{taskdetail.id}/edit", method: "get") do %>
                 <tr>
@@ -58,11 +54,7 @@
                 <% end %>
                     <td class="Table-cell-center">
                     <div class="Schedule-button">
-                        <a href="javascript:void(0)" title="Delete">
-                            <%= form_with(url: "/taskdetails/#{taskdetail.id}", method: "delete") do %>
-                                <%= image_submit_tag("delete.svg", class: "Schedule-img") %>
-                            <% end %>
-                        </a>
+                        <%= link_to image_submit_tag("delete.svg", class: "Schedule-img", alt: "Delete"), "/taskdetails/#{taskdetail.id}", title: "Delete", method: :delete %>
                     </div>
                     </td>
                 </tr>

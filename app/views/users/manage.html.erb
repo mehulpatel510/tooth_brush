@@ -2,16 +2,8 @@
     <div class="DashboardPage-header">
         <p class="DashboardPage-title">Manage Users</p>
         <div class="DashboardPage-links">
-        <a href="javascript:void(0)" class="DashboardPage-link" title="Add New Doctor">
-            <%= form_with(url: new_user_path, method: "get") do %>
-                <%= image_submit_tag("add.jpg", class: "Schedule-img-task", alt: "History") %>
-            <% end %>
-        </a>
-        <a href="javascript:void(0)" class="DashboardPage-link" title="Dashboard">
-            <%= form_with(url: users_path, method: "get") do %>
-                <%= image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard") %>
-            <% end %>
-        </a>
+            <%= link_to image_submit_tag("add.jpg", class: "Schedule-img-task", alt: "History"), new_user_path, title: "Add New Doctor" %>
+            <%= link_to image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard"), users_path, title: "Dashboard" %>
         </div>
     </div>
     <hr/>
@@ -20,18 +12,18 @@
         <% @show_user = (@show_user == nil || @show_user.empty?) ? "both" : @show_user %>
         <%= form_with(url: "/users/manage", method: "get") do %>
             Show <%= radio_button_tag :show_user, "doctor", @show_user == "doctor" ? true : false, onclick: "this.form.submit()" %> Only doctors
-            <%= radio_button_tag :show_user, "patient", @show_user == "false" ? true : false, onclick: "this.form.submit()" %> Only patients
+            <%= radio_button_tag :show_user, "patient", @show_user == "patient" ? true : false, onclick: "this.form.submit()" %> Only patients
             <%= radio_button_tag :show_user, "both", @show_user == "both" ? true : false, onclick: "this.form.submit()" %> All users
         <% end %>
     </section>
     <section class="AdminDashboardPage-users">
         <table class="AdminPage-table">
-        <tr><th>Status</th><th>User id</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>User Role</th><th></th><th></th></tr>
+        <tr><th>Active User</th><th>User id</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>User Role</th><th></th><th></th></tr>
             <% @users.each do |user| %>
              <tr>
                 <%= form_with(url: "/users/#{user.id}", method: "put") do %>
                     <td class="Table-cell-center"> 
-                        <%= check_box_tag :status, nil, user.status, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
+                        <%= check_box_tag :status, nil, user.active_user, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
                     </td>
                 <% end %>     
                 <%= form_with(url: "/users/#{user.id}/edit", method: "get") do %>
@@ -82,11 +74,7 @@
                 <% end %>
                         <td class="Table-cell-center">
                         <div class="Schedule-button">
-                            <a href="javascript:void(0)">
-                               <%= form_with(url: "/users/#{user.id}", method: "delete") do %>
-                                    <%= image_submit_tag("delete.svg", class: "Schedule-img") %>
-                                <% end %>
-                            </a>
+                            <%= link_to image_submit_tag("delete.svg", class: "Schedule-img", alt: "Delete"), "/users/#{user.id}", title: "Delete", method: :delete %>
                         </div>
                         </td>
                 </tr>

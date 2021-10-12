@@ -3,7 +3,7 @@ class SchedulesController < ApplicationController
 
   def index
     find_users_shedules()
-    check_schedules_status()
+    check_active_schedules()
     if current_user == nil
       redirect_to home_path
     end
@@ -12,7 +12,7 @@ class SchedulesController < ApplicationController
 
   def show
     find_users_shedules()
-    check_schedules_status()
+    check_active_schedules()
     @schedules = @schedules.order(:id)
 
     if @user_role == "doctor"
@@ -37,8 +37,8 @@ class SchedulesController < ApplicationController
         @schedule.assign_date = params[:assign_date]
       elsif @field == "complete_date"
         @schedule.complete_date = params[:complete_date]
-      elsif @field == "schedule" && params[:schedule]
-        @schedule.schedule = params[:schedule]
+      elsif @field == "schedule_slot" && params[:schedule_slot]
+        @schedule.schedule_slot = params[:schedule_slot]
       end
       @schedule.save!
     end
@@ -48,19 +48,19 @@ class SchedulesController < ApplicationController
   def create
     patient_id = params[:patient_id]
     doctor_id = current_user.id
-    schedule = params[:schedule]
+    schedule_slot = params[:schedule_slot]
     duration = params[:duration]
     assign_date = params[:assign_date]
     complete_date = params[:complete_date]
-    status = true
+    active_schedule = true
     new_schedule = Schedule.new(
       patient_id: patient_id,
       doctor_id: doctor_id,
-      schedule: schedule,
+      schedule_slot: schedule_slot,
       duration: duration,
       assign_date: assign_date,
       complete_date: complete_date,
-      status: true,
+      active_schedule: true,
     )
     if !new_schedule.save
       flash[:error] = new_schedule.errors.full_messages.join(", ")
@@ -72,9 +72,9 @@ class SchedulesController < ApplicationController
 
   def update
     schedule_id = params[:id]
-    status = params[:status] ? params[:status] : false
+    active_schedule = params[:active_schedule] ? params[:active_schedule] : false
     schedule = Schedule.of_user(current_user).find(schedule_id)
-    schedule.status = status
+    schedule.active_schedule = active_schedule
     schedule.save!
     redirect_to schedules_path
   end
@@ -89,7 +89,7 @@ class SchedulesController < ApplicationController
 
   def summary
     find_users_shedules()
-    check_schedules_status()
+    check_active_schedules()
     render "summary"
   end
 
@@ -103,12 +103,12 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def check_schedules_status
-    @status = params[:status] == nil ? session[:status] : params[:status]
-    @status = (@status == nil || @status.empty?) ? "true" : @status
-    session[:status] = @status
-    if @status != "both"
-      @schedules = @schedules.where(status: @status)
+  def check_active_schedules
+    @active_schedule = params[:active_schedule] == nil ? session[:active_schedule] : params[:active_schedule]
+    @active_schedule = (@active_schedule == nil || @active_schedule.empty?) ? "true" : @active_schedule
+    session[:active_schedule] = @active_schedule
+    if @active_schedule != "both"
+      @schedules = @schedules.where(active_schedule: @active_schedule)
     end
   end
 end

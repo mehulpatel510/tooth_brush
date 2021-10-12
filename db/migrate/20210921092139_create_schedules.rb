@@ -7,7 +7,7 @@ class CreateSchedules < ActiveRecord::Migration[6.1]
       t.integer :duration
       t.date :assign_date
       t.date :complete_date
-      t.boolean :status
+      t.boolean :active_schedule
 
       t.timestamps
     end

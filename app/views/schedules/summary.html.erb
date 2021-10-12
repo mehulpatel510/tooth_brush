@@ -1,20 +1,16 @@
 <div class="DashboardPage">
     <div class="DashboardPage-header">
         <p class="DashboardPage-title">Summary of assigned brushing schedule</p>
-        <a href="javascript:void(0)" class="DashboardPage-link" title="Dashboard">
-            <%= form_with(url: schedules_path, method: "get") do %>
-                <%= image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "History") %>
-            <% end %>
-        </a>
+        <%= link_to image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard"), schedules_path, title: "Dashboard" %>
     </div>
     <hr/>
     <section class="DashboardPage-schedules-selection">
-        <% @status = session[:status] %>
-        <% @status = (@status == nil || @status.empty?) ? "true" : @status %>
+        <% @active_schedule = session[:active_schedule] %>
+        <% @active_schedule = (@active_schedule == nil || @active_schedule.empty?) ? "true" : @active_schedule %>
         <%= form_with(url: "/schedules/summary", method: "get") do %>
-            Show <%= radio_button_tag :status, "true", @status == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
-            <%= radio_button_tag :status, "false", @status == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
-            <%= radio_button_tag :status, "both", @status == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
+            Show <%= radio_button_tag :active_schedule, "true", @active_schedule == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
+            <%= radio_button_tag :active_schedule, "false", @active_schedule == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
+            <%= radio_button_tag :active_schedule, "both", @active_schedule == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
         <% end %>
     </section>
     <section>

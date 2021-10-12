@@ -14,7 +14,6 @@ class UsersController < ApplicationController
       render session_path
     end
     find_users_by_role()
-    @users = User.order(:id)
     render "/users/manage"
   end
 
@@ -22,26 +21,26 @@ class UsersController < ApplicationController
     @show_user = params[:show_user] == nil ? session[:show_user] : params[:show_user]
     @show_user = (@show_user == nil || @show_user.empty?) ? "both" : @show_user
     session[:show_user] = @show_user
-    if @show_user && @show_user != "both"
-      @users = User.where(user_role: @show_user)
+    if @show_user != "both"
+      @users = User.where(user_role: @show_user).order(:id)
     else
-      @users = User.all
+      @users = User.all.order(:id)
     end
   end
 
-  def find_user_by_status
-    @status = params[:status] == nil ? session[:status] : params[:status]
-    @status = (@status == nil || @status.empty?) ? "both" : @status 
-    session[:status] = @status
-    if @status != "both"
-      @users = User.where(status: @status)
+  def find_active_user_by_status
+    @active_user = params[:active_user] == nil ? session[:active_user] : params[:active_user]
+    @active_user = (@active_user == nil || @active_user.empty?) ? "both" : @active_user
+    session[:active_user] = @active_user
+    if @active_user != "both"
+      @users = User.where(active_user: @active_user)
     else
       @users = User.all
     end
   end
 
   def show
-    find_user_by_status()
+    find_active_user_by_status()
     if current_user
       if current_user.user_role == "admin"
         render "admin_dashboard"
@@ -72,7 +71,7 @@ class UsersController < ApplicationController
       email: params[:email],
       password: (params[:password]),
       user_role: @user_role,
-      status: true,
+      active_user: true,
     )
     if !new_user.save
       flash[:error] = new_user.errors.full_messages.join(", ")
@@ -82,17 +81,18 @@ class UsersController < ApplicationController
         flash[:info] = "Successfully doctor added!"
         manage()
       else
-        flash[:info] = "Congrats, Successfully Registered! Please, login to continue!"
-        redirect_to home_path
+        flash[:info] = "Congrats, Successfully Registered!"
+        session[:current_user_id] = new_user.id
+        redirect_to schedules_path
       end
     end
   end
 
   def update
     user_id = params[:id]
-    status = params[:status] ? params[:status] : false
+    active_user = params[:active_user] ? params[:active_user] : false
     user = User.find(user_id)
-    user.status = status
+    user.active_user = active_user
     user.save!
     manage()
   end

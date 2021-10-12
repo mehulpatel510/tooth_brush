@@ -1,11 +1,7 @@
 <section class="NewSchedule">
     <div class="DashboardPage-header">
-    <p class="DashboardPage-title">New Schedule</p>
-    <a href="javascript:void(0)" class="DashboardPage-link" title="Dashboard">
-            <%= form_with(url: schedules_path, method: "get") do %>
-                <%= image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "History") %>
-            <% end %>
-        </a>
+        <p class="DashboardPage-title">New Schedule</p>
+        <%= link_to image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard"), schedules_path, title: "Dashboard" %>    
     </div>
     <hr/>
     <%= form_with url: schedules_path, method: "post" do |form| %>
@@ -14,9 +10,9 @@
             <%= select_tag(:patient_id, options_from_collection_for_select(User.patients, :id, :full_name), class: "NewSchedulePage-dropdown") %>
         </div>
         <div class="NewSchedule-Form-section">
-            <p><%= form.label :schedule, "Schedule at:" %></p>
-            <%= check_box_tag "schedule[]", "Morning", false, class: "NewSchedulePage-checkbox" %>Morning
-            <%= check_box_tag "schedule[]", "Evening", false, class: "NewSchedulePage-checkbox" %>Evening
+            <p><%= form.label :schedule_slot, "Schedule slots:" %></p>
+            <%= check_box_tag "schedule_slot[]", "Morning", false, class: "NewSchedulePage-checkbox" %>Morning
+            <%= check_box_tag "schedule_slot[]", "Evening", false, class: "NewSchedulePage-checkbox" %>Evening
         </div>
         <div class="NewSchedule-Form-section">    
             <p><%= form.label :duration, "Duration:" %></p>

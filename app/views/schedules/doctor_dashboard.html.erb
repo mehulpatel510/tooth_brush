@@ -2,26 +2,18 @@
     <div class="DashboardPage-header">
         <p class="DashboardPage-title">Doctor Dashboard</p>
         <div class="DashboardPage-links">
-        <a href="javascript:void(0)" class="DashboardPage-link" title="Add New Schedule">
-            <%= form_with(url: new_schedule_path, method: "get") do %>
-                <%= image_submit_tag("add.jpg", class: "Schedule-img-task", alt: "History") %>
-            <% end %>
-        </a>
-        <a href="javascript:void(0)" class="DashboardPage-link" title="Summary Report">
-            <%= form_with(url: "/schedules/summary", method: "get") do %>
-                <%= image_submit_tag("summary.png", class: "Schedule-img-task", alt: "Summary") %>
-            <% end %>
-        </a>
+            <%= link_to image_submit_tag("add.jpg", class: "Schedule-img-task", alt: "History"), new_schedule_path %>
+            <%= link_to image_submit_tag("summary.png", class: "Schedule-img-task", alt: "Summary"), "/schedules/summary", title: "Summary Report" %>
         </div>
     </div>
     <hr/>
     <section class="DashboardPage-schedules-selection">
-        <% @status = session[:status] %>
-        <% @status = (@status == nil || @status.empty?) ? "true" : @status %>
+        <% @active_schedule = session[:active_schedule] %>
+        <% @active_schedule = (@active_schedule == nil || @active_schedule.empty?) ? "true" : @active_schedule %>
         <%= form_with(url: "/schedules/show", method: "get") do %>
-            Show <%= radio_button_tag :status, "true", @status == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
-            <%= radio_button_tag :status, "false", @status == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
-            <%= radio_button_tag :status, "both", @status == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
+            Show <%= radio_button_tag :active_schedule, "true", @active_schedule == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
+            <%= radio_button_tag :active_schedule, "false", @active_schedule == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
+            <%= radio_button_tag :active_schedule, "both", @active_schedule == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
         <% end %>
     </section>
     <section class="DashboardPage-schedules">
@@ -31,8 +23,8 @@
                     <div class="Schedule-block">
                         <div class="Schedule-block-firstline">
                         <%= form_with(url: "/schedules/#{schedule.id}", method: "put") do %>
-                            <%= check_box_tag :status, nil, schedule.status, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
-                            Current Status
+                            <%= check_box_tag :active_schedule, nil, schedule.active_schedule, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
+                            Current schedule active or not?
                         <% end %>
                         </div>
                         <div class='Schedule-Text'>
@@ -40,21 +32,21 @@
                             <p class="Schedule-Text-value"><%= schedule.patient_name %></p>
                         </div>
                         <div class='Schedule-Text'>
-                            <p>Schedule: </p>
+                            <p>Schedule slots: </p>
                             <p class="Schedule-Text-value">
-                                <% if @field == "schedule" && @schedule_id == schedule.id && @button == "edit" %>
+                                <% if @field == "schedule_slot" && @schedule_id == schedule.id && @button == "edit" %>
                                     <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                        <%= check_box_tag "schedule[]", "Morning", checked = schedule.schedule.include?("Morning") %> Morning
-                                        <%= check_box_tag "schedule[]", "Evening", checked = schedule.schedule.include?("Evening") %> Evening
-                                        <%= hidden_field_tag("field", "schedule") %>
+                                        <%= check_box_tag "schedule_slot[]", "Morning", checked = schedule.schedule_slot.include?("Morning") %> Morning
+                                        <%= check_box_tag "schedule_slot[]", "Evening", checked = schedule.schedule_slot.include?("Evening") %> Evening
+                                        <%= hidden_field_tag("field", "schedule_slot") %>
                                         <%= hidden_field_tag("button", "save") %>
                                         <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
                                     <% end %>
                                 <% else %>
-                                    <%= schedule.schedule %> 
+                                    <%= schedule.schedule_slot.delete('"[]') %> 
                                     <a href="javascript:void(0)" title="Edit">
                                         <%= form_with(url: "/schedules/#{schedule.id}/edit", method: "get") do %>
-                                            <%= hidden_field_tag("field", "schedule") %>
+                                            <%= hidden_field_tag("field", "schedule_slot") %>
                                             <%= hidden_field_tag("button", "edit") %>
                                             <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
                                         <% end %>
@@ -140,21 +132,12 @@
                                 <%= (performance * 100).round(2) %> %
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="Schedule-button-history" title="History">
-                                <%= form_with(url: "/taskdetails/#{schedule.id}", method: "get") do %>
-                                    <%= image_submit_tag("history.png", class: "Schedule-img-task", alt: "History") %>
-                                <% end %>
-                            </a>
-                            <a href="javascript:void(0)" class="Schedule-button-delete" title="Delete">
-                                <%= form_with(url: "/schedules/#{schedule.id}", method: "delete") do %>
-                                    <%= image_submit_tag("delete.svg", class: "Schedule-img-delete") %>
-                                <% end %>
-                            </a>
+                            <%= link_to image_submit_tag("history.png", class: "Schedule-img-task", alt: "History"), "/taskdetails/#{schedule.id}", title: "History" %>
+                            <%= link_to image_submit_tag("delete.svg", class: "Schedule-img-delete", alt: "Delete"), "/schedules/#{schedule.id}", title: "Delete", method: :delete %>
                         </div>
                     </div>
                 </div>
             <% end %>
         </div>
     </section>
-    
 </div>

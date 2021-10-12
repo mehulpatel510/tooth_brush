@@ -1,7 +1,7 @@
 class Schedule < ApplicationRecord
   validates :patient_id, presence: true
   validates :doctor_id, presence: true
-  validates :schedule, presence: true
+  validates :schedule_slot, presence: true
   validates :duration, presence: true
 
   belongs_to :patient, class_name: "User"
@@ -32,7 +32,7 @@ class Schedule < ApplicationRecord
 
   def patient_performance()
     no_of_days = (self.complete_date - self.assign_date + 1).to_i
-    schedule_slot = self.schedule
+    schedule_slot = self.schedule_slot
     no_of_slots = (schedule_slot.delete '[]""').split().count
     no_of_tasks = no_of_days * no_of_slots
     no_of_completed_task = Taskdetail.where(schedule_id: self.id).count

@@ -4,85 +4,87 @@
     </div>
     <hr/>
     <section class="DashboardPage-schedules-selection">
-        <% @status = session[:status] %>
-        <% @status = (@status == nil || @status.empty?) ? "true" : @status %>
+        <% @active_schedule = session[:active_schedule] %>
+        <% @active_schedule = (@active_schedule == nil || @active_schedule.empty?) ? "true" : @active_schedule %>
         <%= form_with(url: "/schedules/show", method: "get") do %>
-            Show <%= radio_button_tag :status, "true", @status == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
-            <%= radio_button_tag :status, "false", @status == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
-            <%= radio_button_tag :status, "both", @status == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
+            Show <%= radio_button_tag :active_schedule, "true", @active_schedule == "true" ? true : false, onclick: "this.form.submit()" %> Only Active schedules
+            <%= radio_button_tag :active_schedule, "false", @active_schedule == "false" ? true : false, onclick: "this.form.submit()" %> Only Inactive schedules
+            <%= radio_button_tag :active_schedule, "both", @active_schedule == "both" ? true : false, onclick: "this.form.submit()" %> All Schedules
         <% end %>
     </section>
     <section class="DashboardPage-schedules">
         <div class="DashboardPage-schedule-list">
-            <% @schedules.each do |schedule| %>
-                <div class="Schedules-li">
-                    <div class="Schedule-block">
-                        <%= form_with(url: "/schedules/#{schedule.id}", method: "put") do %>
-                            <%= check_box_tag :status, nil, schedule.status, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
-                            Current Status
-                        <% end %>
-                        <div class='Schedule-Text'><p>Doctor Name: </p><p class="Schedule-Text-value"><%= schedule.doctor_name %></p></div>
-                        <div class='Schedule-Text'>
-                        <p>Brushing Schedule: </p>
-                        <p class="Schedule-Text-value">
-                            <%= schedule.schedule %> 
-                        </p>
-                            
-                        </div>
-                        <div class='Schedule-Text'>
-                        <p class="Schedule-title" >Brushing Duration: </p>
-                        <p class="Schedule-Text-value">
-                                <%= schedule.duration %> seconds
-                        </p>
-                        </div>
-                        <div class="Schedule-Text"><p class="Schedule-title">Starting Date: </p>
-                        <p class="Schedule-Text-value">
-                                <%= schedule.assign_date.to_s(:short) %>
-                        </p>
-                        </div>
-                        <div class="Schedule-Text"><p  class="Schedule-title">Completion Date: </p>
-                        <p class="Schedule-Text-value">
-                                <%= schedule.complete_date.to_s(:short) %>
-                        </p>
-                        </div>
-                        <div class="Schedule-Text">
-                            <% performance, no_of_completed_task, no_of_expected_task = schedule.patient_performance() %>
-                            <p  class="Schedule-title">Performace: </p>
-                            <p class="Schedule-Text-value"><%= no_of_completed_task.to_s %> / <%= no_of_expected_task.to_s %> </p>
-                        </div>
-                        <div class="Schedule-button">
-                            <div class="Schedule-block-bar">
-                                <div class="Schedule-block-bar-color" style="min-width:<%= performance * 93.6 %>%;background-color: rgb(<%= (255 * (1 - performance)).to_i %>, <%= (255 * (performance)).to_i %>, 0);">
-                                <%= (performance * 100).round(2) %> %
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="Schedule-button-history" title="History">
-                                <%= form_with(url: "/taskdetails/#{schedule.id}", method: "get") do %>
-                                    <%= image_submit_tag("history.png", class: "Schedule-img-task", alt: "History") %>
-                                <% end %>
-                            </a>
-                            
-                        </div>
-                        <div class="Schedule-task-block">
-                        <%= form_with(url: "/taskdetails", method: "post") do %>
-                            <div class="Schedule-task">
-                                <% if schedule.schedule.include?("Morning") %>
-                                    <%= radio_button_tag "schedule", "Morning", checked = schedule.schedule.include?("Morning") %> Morning
-                                <% end %>
-                                <% if schedule.schedule.include?("Evening") %>
-                                    <%= radio_button_tag "schedule", "Evening", checked = schedule.schedule.include?("Evening") %> Evening
-                                <% end %>         
-                                <a title="Complete" >
-                                    <%= hidden_field_tag("schedule_id", schedule.id) %>
-                                    <%= hidden_field_tag("duration", schedule.duration) %>
-                                    <%= image_submit_tag("task.png", class: "Schedule-img-task", disabled: !schedule.status) %>
-                                </a>
-                            </div>
-                        <% end %>
-                        </div>
-                        
-                    </div>
+            
+            <% if @schedules == nil || @schedules.to_a.count == 0%>
+                <div class="Schedule-block">
+                    No Schedule Found! Contact to your doctor!
                 </div>
+            <% else %>
+                <% @schedules.each do |schedule| %>
+                    <div class="Schedules-li">
+                        <div class="Schedule-block">
+                            <%= form_with(url: "/schedules/#{schedule.id}", method: "put") do %>
+                                <%= check_box_tag :active_schedule, nil, schedule.active_schedule, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
+                                Current Status of Schedule, Active or not?
+                            <% end %>
+                            <div class='Schedule-Text'><p>Doctor Name: </p><p class="Schedule-Text-value"><%= schedule.doctor_name %></p></div>
+                            <div class='Schedule-Text'>
+                            <p>Brushing Schedule slots: </p>
+                            <p class="Schedule-Text-value">
+                                <%= schedule.schedule_slot.delete('"[]') %> 
+                            </p>
+                                
+                            </div>
+                            <div class='Schedule-Text'>
+                            <p class="Schedule-title" >Brushing Duration: </p>
+                            <p class="Schedule-Text-value">
+                                    <%= schedule.duration %> seconds
+                            </p>
+                            </div>
+                            <div class="Schedule-Text"><p class="Schedule-title">Starting Date: </p>
+                            <p class="Schedule-Text-value">
+                                    <%= schedule.assign_date.to_s(:short) %>
+                            </p>
+                            </div>
+                            <div class="Schedule-Text"><p  class="Schedule-title">Completion Date: </p>
+                            <p class="Schedule-Text-value">
+                                    <%= schedule.complete_date.to_s(:short) %>
+                            </p>
+                            </div>
+                            <div class="Schedule-Text">
+                                <% performance, no_of_completed_task, no_of_expected_task = schedule.patient_performance() %>
+                                <p  class="Schedule-title">Performace: </p>
+                                <p class="Schedule-Text-value"><%= no_of_completed_task.to_s %> / <%= no_of_expected_task.to_s %> </p>
+                            </div>
+                            <div class="Schedule-button">
+                                <div class="Schedule-block-bar">
+                                    <div class="Schedule-block-bar-color" style="min-width:<%= performance * 93.6 %>%;background-color: rgb(<%= (255 * (1 - performance)).to_i %>, <%= (255 * (performance)).to_i %>, 0);">
+                                    <%= (performance * 100).round(2) %> %
+                                    </div>
+                                </div>
+                                <%= link_to image_submit_tag("history.png", class: "Schedule-img-task", alt: "History"), "/taskdetails/#{schedule.id}", title: "History" %>
+                            </div>
+                            <div class="Schedule-task-block">
+                            <%= form_with(url: "/taskdetails", method: "post") do %>
+                                <div class="Schedule-task">
+                                    <% if schedule.schedule_slot.include?("Morning") %>
+                                        <%= radio_button_tag "schedule_slot", "Morning", checked = schedule.schedule_slot.include?("Morning") %> Morning
+                                    <% end %>
+                                    <% if schedule.schedule_slot.include?("Evening") %>
+                                        <%= radio_button_tag "schedule_slot", "Evening", checked = schedule.schedule_slot.include?("Evening") %> Evening
+                                    <% end %>         
+                                    <a title="Complete" >
+                                        <%= hidden_field_tag("schedule_id", schedule.id) %>
+                                        <%= hidden_field_tag("duration", schedule.duration) %>
+                                        <%= image_submit_tag("task.png", class: "Schedule-img-task", disabled: !schedule.active_schedule) %>
+                                    </a>
+                                </div>
+                            <% end %>
+                            </div>
+                            
+                        </div>
+                    </div>
+                <% end %>
             <% end %>
         </div>
     </section>
