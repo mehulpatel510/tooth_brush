@@ -39,15 +39,16 @@
                     <td class="Table-cell-center">
                     <div>
                         <% if @taskdetail_id == taskdetail.id && @button == "edit" %>
-                            <a href="javascript:void(0)" title="Save" class="Table-cell-center">
+                            <a href="javascript:void(0)" title="Save">
                                 <%= hidden_field_tag("button", "save") %>
                                 <%= image_submit_tag("save.jpg", class: "Schedule-img-save") %>
                             </a>
                         <% else %>
-                            <a href="javascript:void(0)" title="Edit" class="Table-cell-center">
+                            <a href="javascript:void(0)" title="Edit">
                                 <%= hidden_field_tag("button", "edit") %>
                                 <%= image_submit_tag("edit4.ico", class: "Schedule-img") %>
-                            </a>        
+                            </a>
+                            
                         <% end %>  
                     </div>
                     </td>

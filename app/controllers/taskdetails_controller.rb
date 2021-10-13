@@ -32,8 +32,9 @@ class TaskdetailsController < ApplicationController
       session[:schedule_id] = @schedule_id
     else
       @schedule_id = session[:schedule_id]
+      @button = params[:button]
     end
-    puts @schedule_id
+    
     @taskdetails = Taskdetail.where(schedule_id: @schedule_id.to_i)
     if @button == nil
       @button = "save"
@@ -44,12 +45,13 @@ class TaskdetailsController < ApplicationController
 
   def edit
     @taskdetail_id = params[:id].to_i
-    @task_date = params[:task_date]
-    @schedule_slot = params[:schedule_slot]
-    @duration = params[:duration]
-
+    
     @button = params[:button]
     if @button == "save"
+      @task_date = params[:task_date]
+      @schedule_slot = params[:schedule_slot]
+      @duration = params[:duration]
+  
       @tasldetail = Taskdetail.find(@taskdetail_id)
       @tasldetail.task_date = @task_date
       @tasldetail.schedule_slot = @schedule_slot
