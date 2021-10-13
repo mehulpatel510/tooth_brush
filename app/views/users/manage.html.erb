@@ -21,11 +21,11 @@
         <tr><th>Active User</th><th>User id</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>User Role</th><th></th><th></th></tr>
             <% @users.each do |user| %>
              <tr>
-                <%= form_with(url: "/users/#{user.id}", method: "put") do %>
                     <td class="Table-cell-center"> 
-                        <%= check_box_tag :active_user, nil, user.active_user, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
+                        <%= form_with(url: "/users/#{user.id}", method: "put") do %>
+                            <%= check_box_tag :active_user, nil, user.active_user, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
+                        <% end %>     
                     </td>
-                <% end %>     
                 <%= form_with(url: "/users/#{user.id}/edit", method: "get") do %>
                         <td class="Table-cell-center">
                             <%= user.id %>
