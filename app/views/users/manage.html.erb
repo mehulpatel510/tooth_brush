@@ -23,7 +23,7 @@
              <tr>
                 <%= form_with(url: "/users/#{user.id}", method: "put") do %>
                     <td class="Table-cell-center"> 
-                        <%= check_box_tag :status, nil, user.active_user, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
+                        <%= check_box_tag :active_user, nil, user.active_user, class: "Schedule-checkbox", onclick: "this.form.submit()" %>
                     </td>
                 <% end %>     
                 <%= form_with(url: "/users/#{user.id}/edit", method: "get") do %>
