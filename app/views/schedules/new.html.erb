@@ -1,7 +1,7 @@
 <section class="NewSchedule">
     <div class="DashboardPage-header">
         <p class="DashboardPage-title">New Schedule</p>
-        <%= link_to image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard"), schedules_path, title: "Dashboard" %>    
+        <%= link_to image_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard"), schedules_path, title: "Dashboard" %>    
     </div>
     <hr/>
     <%= form_with url: schedules_path, method: "post" do |form| %>

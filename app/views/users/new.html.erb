@@ -3,8 +3,8 @@
         <% if @current_user %>
             <p class="DashboardPage-title">Add new Doctor user!</p>
             <div class="DashboardPage-links">
-                <%= link_to  image_submit_tag("users.png", class: "Schedule-img-task", alt: "Manage User") , "/users/manage", title: "Manage Users" %>
-                <%= link_to  image_submit_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard") , users_path , title: "Dashboard" %>
+                <%= link_to  image_tag("users.png", class: "Schedule-img-task", alt: "Manage User") , "/users/manage", title: "Manage Users" %>
+                <%= link_to  image_tag("dashboard.png", class: "Schedule-img-header", alt: "Dashboard") , users_path , title: "Dashboard" %>
             </div>
         <% else %>
             <p class="DashboardPage-title">Welcome new user!</p>

@@ -2,8 +2,8 @@
     <div class="DashboardPage-header">
         <p class="DashboardPage-title">Doctor Dashboard</p>
         <div class="DashboardPage-links">
-            <%= link_to image_submit_tag("add.jpg", class: "Schedule-img-task", alt: "History"), new_schedule_path %>
-            <%= link_to image_submit_tag("summary.png", class: "Schedule-img-task", alt: "Summary"), "/schedules/summary", title: "Summary Report" %>
+            <%= link_to image_tag("add.jpg", class: "Schedule-img-task", alt: "History"), new_schedule_path %>
+            <%= link_to image_tag("summary.png", class: "Schedule-img-task", alt: "Summary"), "/schedules/summary", title: "Summary Report" %>
         </div>
     </div>
     <hr/>
@@ -132,8 +132,8 @@
                                 <%= (performance * 100).round(2) %> %
                                 </div>
                             </div>
-                            <%= link_to image_submit_tag("history.png", class: "Schedule-img-task", alt: "History"), "/taskdetails/#{schedule.id}", title: "History" %>
-                            <%= link_to image_submit_tag("delete.svg", class: "Schedule-img-delete", alt: "Delete"), "/schedules/#{schedule.id}", title: "Delete", method: :delete %>
+                            <%= link_to image_tag("history.png", class: "Schedule-img-task", alt: "History"), "/taskdetails/#{schedule.id}", title: "History" %>
+                            <%= link_to image_tag("delete.svg", class: "Schedule-img-delete", alt: "Delete"), "/schedules/#{schedule.id}", title: "Delete", method: :delete, data: { confirm: "Are you sure you want to delete this user?" }  %>
                         </div>
                     </div>
                 </div>

@@ -62,7 +62,7 @@
                                     <%= (performance * 100).round(2) %> %
                                     </div>
                                 </div>
-                                <%= link_to image_submit_tag("history.png", class: "Schedule-img-task", alt: "History"), "/taskdetails/#{schedule.id}", title: "History" %>
+                                <%= link_to image_tag("history.png", class: "Schedule-img-task", alt: "History"), "/taskdetails/#{schedule.id}", title: "History" %>
                             </div>
                             <div class="Schedule-task-block">
                             <%= form_with(url: "/taskdetails", method: "post") do %>
